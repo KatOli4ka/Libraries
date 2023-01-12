@@ -1,7 +1,7 @@
-package pro.sky.newyummyrecipes.services;
-import org.springframework.lang.Nullable;
+package pro.sky.libraries.services;
 import org.springframework.stereotype.Service;
-import pro.sky.newyummyrecipes.models.Ingredient;
+import pro.sky.libraries.models.Ingredient;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

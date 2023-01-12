@@ -1,10 +1,11 @@
-package pro.sky.newyummyrecipes.controller;
+package pro.sky.libraries.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.newyummyrecipes.models.Ingredient;
-import pro.sky.newyummyrecipes.models.Recipe;
-import pro.sky.newyummyrecipes.services.RecipeService;
+
+import pro.sky.libraries.models.Recipe;
+import pro.sky.libraries.services.RecipeService;
+
 
 import java.util.Map;
 
