@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import pro.sky.libraries.models.Recipe;
 import pro.sky.libraries.services.RecipeService;
+import pro.sky.libraries.services.ValidateService;
 
 
 import java.util.Map;
@@ -13,9 +14,12 @@ import java.util.Map;
 @RequestMapping("/recipe")
 public class RecipeController {
     private final RecipeService recipeService;
+    private final ValidateService validateService;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService,
+                            ValidateService validateService) {
         this.recipeService = recipeService;
+        this.validateService=validateService;
     }
 
     @GetMapping("/{recipeId}")
@@ -23,12 +27,18 @@ public class RecipeController {
         return ResponseEntity.of(recipeService.getRecipeById(recipeId));
     }
     @PostMapping
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
-       return recipeService.addRecipe(recipe);
+    public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
+        if (validateService.isNotValid(recipe)) {
+            return ResponseEntity.badRequest().build();
+        }
+       return ResponseEntity.ok(recipeService.addRecipe(recipe));
     }
     @PutMapping("/{recipeId}")
     public ResponseEntity<Recipe> editing(@PathVariable long recipeId,
                                               @RequestBody Recipe recipe){
+        if (validateService.isNotValid(recipe)) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.of(recipeService.editing(recipeId,recipe));
     }
     @DeleteMapping("/{recipeId}")
