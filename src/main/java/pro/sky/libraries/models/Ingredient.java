@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ingredient {
-    private String title;
-    private int amount;
+    private String name;
+    private int count;
     private String measureUnit;
 
 }

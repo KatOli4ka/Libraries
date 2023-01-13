@@ -9,15 +9,22 @@ import pro.sky.libraries.models.Recipe;
 @Service
 public class ValidateService {
     public boolean isNotValid(Recipe recipe) {
-        return StringUtils.isBlank(recipe.getTitle()) ||
+        boolean result= StringUtils.isBlank(recipe.getName()) ||
+                StringUtils.isBlank(recipe.getUnitTime())||
                 CollectionUtils.isEmpty(recipe.getIngredients()) ||
                 CollectionUtils.isEmpty(recipe.getSteps()) ||
                 recipe.getCookingTime() <= 0;
+        if (!result) {
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                result=result||isNotValid(ingredient);
+            }
+        }
+        return result;
     }
 
     public boolean isNotValid(Ingredient ingredient) {
-        return StringUtils.isBlank(ingredient.getTitle()) ||
+        return StringUtils.isBlank(ingredient.getName()) ||
                 StringUtils.isBlank(ingredient.getMeasureUnit()) ||
-                ingredient.getAmount() <= 0;
+                ingredient.getCount() <= 0;
     }
 }

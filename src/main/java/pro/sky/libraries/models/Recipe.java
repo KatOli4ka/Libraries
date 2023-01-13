@@ -8,8 +8,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
-    private  String title;
+    private  String name;
     private int cookingTime;
+    private String unitTime;
     private List<Ingredient> ingredients;
     private List<String> steps;
 

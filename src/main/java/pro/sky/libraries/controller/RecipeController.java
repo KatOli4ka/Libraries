@@ -1,5 +1,8 @@
 package pro.sky.libraries.controller;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +12,7 @@ import pro.sky.libraries.services.ValidateService;
 
 
 import java.util.Map;
-
+@Tag(name="RecipeController",description="API для рецептов")
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -26,6 +29,11 @@ public class RecipeController {
     public ResponseEntity<Recipe> getRecipeById(@PathVariable long recipeId) {
         return ResponseEntity.of(recipeService.getRecipeById(recipeId));
     }
+    @Operation(summary="addRecipe",description="Добавление рецептов")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "Добавление прошло успешно!"),
+            @ApiResponse(responseCode = "400",description = "Некорректные параметры рецепта!")
+    })
     @PostMapping
     public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
         if (validateService.isNotValid(recipe)) {
