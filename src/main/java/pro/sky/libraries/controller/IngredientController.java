@@ -1,4 +1,5 @@
 package pro.sky.libraries.controller;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -10,7 +11,8 @@ import pro.sky.libraries.services.IngredientService;
 import pro.sky.libraries.services.ValidateService;
 
 import java.util.Map;
-@Tag(name="IngredientController",description="API для игредиентов")
+
+@Tag(name = "IngredientController", description = "API для игредиентов")
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController {
@@ -20,16 +22,23 @@ public class IngredientController {
     public IngredientController(IngredientService ingredientService,
                                 ValidateService validateService) {
         this.ingredientService = ingredientService;
-        this.validateService=validateService;
+        this.validateService = validateService;
     }
+
+    @Operation(summary = "getIngredientById", description = "Получение ингредиентов")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Все прошло успешно!"),
+            @ApiResponse(responseCode = "400", description = "Некорректные параметры ингредиента!")
+    })
     @GetMapping("/{ingredientId}")
     public ResponseEntity<Ingredient> getIngredientById(@PathVariable long ingredientId) {
-       return ResponseEntity.of(ingredientService.getIngredientById(ingredientId));
+        return ResponseEntity.of(ingredientService.getIngredientById(ingredientId));
     }
-    @Operation(summary="addIngredient",description="Добавление ингредиентов")
+
+    @Operation(summary = "addIngredient", description = "Добавление ингредиентов")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description = "Добавление прошло успешно!"),
-            @ApiResponse(responseCode = "400",description = "Некорректные параметры рецепта!")
+            @ApiResponse(responseCode = "200", description = "Добавление прошло успешно!"),
+            @ApiResponse(responseCode = "400", description = "Некорректные параметры ингредиента!")
     })
     @PostMapping
     public ResponseEntity<Ingredient> addIngredient(@RequestBody Ingredient ingredient) {
@@ -38,21 +47,38 @@ public class IngredientController {
         }
         return ResponseEntity.ok(ingredientService.addIngredient(ingredient));
     }
+
+    @Operation(summary = "editing", description = "Редактирование ингредиентов")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Все прошло успешно!"),
+            @ApiResponse(responseCode = "400", description = "Некорректные параметры игредиента!")
+    })
     @PutMapping("/{ingredientId}")
     public ResponseEntity<Ingredient> editing(@PathVariable long ingredientId,
-                              @RequestBody Ingredient ingredient){
+                                              @RequestBody Ingredient ingredient) {
         if (validateService.isNotValid(ingredient)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.of(ingredientService.editing(ingredientId,ingredient));
+        return ResponseEntity.of(ingredientService.editing(ingredientId, ingredient));
     }
+
+    @Operation(summary = "delete", description = "Удаление ингредиента")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Удаление прошло успешно!"),
+            @ApiResponse(responseCode = "400", description = "Некорректные параметры игредиента!")
+    })
     @DeleteMapping("/{ingredientId}")
-    public ResponseEntity<Ingredient> delete(@PathVariable long ingredientId){
+    public ResponseEntity<Ingredient> delete(@PathVariable long ingredientId) {
         return ResponseEntity.of(ingredientService.delete(ingredientId));
     }
 
+    @Operation(summary = "getAll", description = "Получение всех ингредиентов")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Получение прошло успешно!"),
+            @ApiResponse(responseCode = "400", description = "Некорректные параметры игредиента!")
+    })
     @GetMapping
-    public Map<Long, Ingredient> getAll(){
+    public Map<Long, Ingredient> getAll() {
         return ingredientService.getAll();
     }
 
