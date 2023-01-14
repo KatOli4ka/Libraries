@@ -1,8 +1,7 @@
-package pro.sky.newyummyrecipes.services;
-import org.springframework.lang.Nullable;
+package pro.sky.libraries.services;
+
 import org.springframework.stereotype.Service;
-import pro.sky.newyummyrecipes.models.Ingredient;
-import pro.sky.newyummyrecipes.models.Recipe;
+import pro.sky.libraries.models.Recipe;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Optional;
 @Service
 public class RecipeService {
     private long recipeIdGenerator = 1;
-    private  final Map<Long, Recipe> recipes = new HashMap<>();
+    private final Map<Long, Recipe> recipes = new HashMap<>();
 
     public Recipe addRecipe(Recipe recipe) {
         recipes.put(recipeIdGenerator++, recipe);
@@ -23,7 +22,7 @@ public class RecipeService {
     }
 
     public Optional<Recipe> editing(long recipeId, Recipe recipe) {
-        return Optional.ofNullable(recipes.replace(recipeId,recipe));
+        return Optional.ofNullable(recipes.replace(recipeId, recipe));
     }
 
     public Optional<Recipe> delete(long recipeId) {
@@ -31,6 +30,6 @@ public class RecipeService {
     }
 
     public Map<Long, Recipe> getAll() {
-        return  new HashMap<>(recipes);
+        return new HashMap<>(recipes);
     }
 }
